@@ -13,9 +13,61 @@ class ViewController: UIViewController {
 
     var btnSound: AVAudioPlayer!
     
+    // Enum Variables
+    
+    var runningNumber: String = ""
+    var currentOperation = Operation.Empty
+    var leftValueSTR = ""
+    var rightValueSTR = ""
+    var result = ""
+    
+    enum Operation: String {
+        
+        case Add = "+"
+        case SUbtract = "-"
+        case Multiply = "*"
+        case Divide = "/"
+        case Empty = "Empty"
+    }
+    
+    @IBOutlet weak var outputLBL: UILabel!
+    
+    // SFX for Digits
+    
     @IBAction func BTNPressed(_ sender: UIButton) {
         
         playSound()
+        
+        runningNumber += String(sender.tag)
+        
+        outputLBL.text = runningNumber
+    }
+    
+    // Proccess The type of Operation
+    
+    @IBAction func onAddPressed(_ sender: UIButton) {
+        
+        processOperation(.Add)
+    }
+    
+    @IBAction func onSubstractPressed(_ sender: UIButton) {
+        
+        processOperation(.SUbtract)
+    }
+    
+    @IBAction func onMultiplyPressed(_ sender: UIButton) {
+        
+        processOperation(.Multiply)
+    }
+    
+    @IBAction func onDividePressed(_ sender: UIButton) {
+        
+        processOperation(.Divide)
+    }
+    
+    @IBAction func onEqualPressed(_ sender: UIButton) {
+        
+        processOperation(currentOperation) 
     }
     
     override func viewDidLoad() {
@@ -33,6 +85,8 @@ class ViewController: UIViewController {
             
             print(err.debugDescription)
         }
+        
+        outputLBL.text = String(0)
     }
     
     func playSound() {
@@ -43,6 +97,46 @@ class ViewController: UIViewController {
         }
         
         btnSound.play()
+    }
+    
+    func processOperation(_ operation: Operation) {
+        
+        if currentOperation != Operation.Empty {
+            
+            if runningNumber != "" {
+                
+                rightValueSTR = runningNumber
+                runningNumber = ""
+                
+                if currentOperation == Operation.Add {
+                    
+                    result = "\(Double(leftValueSTR)! + Double(rightValueSTR)!)"
+                } else if currentOperation == Operation.SUbtract {
+                    
+                    result = "\(Double(leftValueSTR)! - Double(rightValueSTR)!)"
+                } else if currentOperation == Operation.Multiply {
+                    
+                    result = "\(Double(leftValueSTR)! * Double(rightValueSTR)!)"
+                } else if currentOperation == Operation.Divide {
+                    
+                    result = "\(Double(leftValueSTR)! / Double(rightValueSTR)!)"
+                }
+                
+                leftValueSTR = result
+                
+                outputLBL.text = result
+                
+                currentOperation = operation
+            }
+        } else {
+            
+            leftValueSTR = runningNumber
+            runningNumber = ""
+            
+            currentOperation = operation
+        }
+        
+         btnSound.play()
     }
 }
 
