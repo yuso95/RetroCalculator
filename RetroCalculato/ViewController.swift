@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     enum Operation: String {
         
         case Add = "+"
-        case SUbtract = "-"
+        case Subtract = "-"
         case Multiply = "*"
         case Divide = "/"
         case Empty = "Empty"
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     
     @IBAction func onSubstractPressed(_ sender: UIButton) {
         
-        processOperation(.SUbtract)
+        processOperation(.Subtract)
     }
     
     @IBAction func onMultiplyPressed(_ sender: UIButton) {
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
                 if currentOperation == Operation.Add {
                     
                     result = "\(Double(leftValueSTR)! + Double(rightValueSTR)!)"
-                } else if currentOperation == Operation.SUbtract {
+                } else if currentOperation == Operation.Subtract {
                     
                     result = "\(Double(leftValueSTR)! - Double(rightValueSTR)!)"
                 } else if currentOperation == Operation.Multiply {
